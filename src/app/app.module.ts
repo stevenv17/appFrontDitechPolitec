@@ -21,6 +21,7 @@ import { NzDividerModule } from 'ng-zorro-antd/divider';
 import { NzInputNumberModule } from 'ng-zorro-antd/input-number';
 import { NzLayoutModule } from 'ng-zorro-antd/layout';
 import { NzMessageModule } from 'ng-zorro-antd/message';
+import { NzPopoverModule } from 'ng-zorro-antd/popover';
 
 import { AppComponent } from './app.component';
 import { FormsModule } from '@angular/forms';
@@ -30,14 +31,17 @@ import { NZ_I18N } from 'ng-zorro-antd/i18n';
 import { en_US } from 'ng-zorro-antd/i18n';
 import { registerLocaleData } from '@angular/common';
 import en from '@angular/common/locales/en';
-import { ClientsComponent } from './clients/clients.component';
+
 import { ReactiveFormsModule } from '@angular/forms';
+import { BooksComponent } from './books/books.component';
+import { AuthorsComponent } from './authors/authors.component';
 
 
 registerLocaleData(en);
 
 const appRoutes: Routes = [
-  { path: 'clients', component: ClientsComponent }
+  { path: 'books', component: BooksComponent },
+  { path: 'authors', component: AuthorsComponent }
 ];
 
 const antDesignIcons = AllIcons as {
@@ -50,7 +54,8 @@ const icons: IconDefinition[] = Object.keys(antDesignIcons).map(key => antDesign
 @NgModule({
   declarations: [
     AppComponent,
-    ClientsComponent
+    BooksComponent,
+    AuthorsComponent
   ],
   imports: [
     BrowserModule,
@@ -75,7 +80,8 @@ const icons: IconDefinition[] = Object.keys(antDesignIcons).map(key => antDesign
     NzInputNumberModule,
     NzLayoutModule,
     NzMessageModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    NzPopoverModule
 
   ],
   providers: [{ provide: NZ_I18N, useValue: en_US }, { provide: NZ_ICONS, useValue: icons }],

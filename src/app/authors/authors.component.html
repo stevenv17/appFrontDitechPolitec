@@ -1,0 +1,70 @@
+<div nz-row [nzGutter]="[16,24]">
+    <div nz-col class="gutter-row" [nzSpan]="3" nzXs="12" nzMd="6" nzLg="3">
+        <button nz-button nzType="primary" (click)="showModal(null)">
+            <i nz-icon nzType="plus"></i>New
+        </button>
+    </div>
+</div>
+
+<nz-divider nzOrientation="left" nzText=""></nz-divider>
+<div nz-row [nzGutter]="[16, 24]">
+    <div nz-col class="gutter-row" [nzSpan]="24">
+        
+        <nz-table #rowSelectionTable
+                nzShowSizeChanger
+                [nzData]="listAuthors"
+                [nzFrontPagination]="true"
+                [nzLoading]="loadingTable"
+                [nzPageSizeOptions]="[5,10,20]">
+            <thead>
+                <tr> 
+                <th scope="col" nzWidth="18%">Name</th>
+                <th scope="col" nzWidth="18%">Books</th>
+                <th scope="col" nzWidth="10%">Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let row of rowSelectionTable.data">
+                <td>{{row.name}}</td> 
+                <td><i nz-icon nzType="eye" (mouseover)="loadAuthor(row)" nz-popover nzPopoverTitle="Books" [nzPopoverContent]="contentTemplate"></i></td>
+                <td>
+                    <button nz-button [nzSize]="small" nzType="default" nzShape="circle" (click)="showModal(row)">
+                        <i nz-icon nzType="edit"></i>
+                    </button>
+                    &nbsp;
+                    <button nz-button [nzSize]="small" nzType="default" nzShape="circle" (click)="deleteAuthor(row)">
+                        <i nz-icon nzType="delete"></i>
+                    </button>
+                </td>
+                </tr>
+            </tbody>
+        </nz-table>
+    </div>
+</div>
+
+<nz-modal
+    [(nzVisible)]="modalVisible"
+    [nzTitle]="modalTitle"
+    (nzOnCancel)="modalVisible = false;"
+    (nzOnOk)="saveAuthor()"
+    [nzOkLoading]="isOkLoading">
+    <form [formGroup] ="modalForm">
+        <div nz-row [nzGutter]="[16,24]">
+            <div nz-col class="gutter-row" [nzSpan]="3" nzXs="22" nzMd="16" nzLg="16">                        
+                <input nz-input class="form-control" placeholder="Name" formControlName="name" maxlength="64" nzTooltipTitle="Name" nz-tooltip required/>
+                <div class="form-validation-error">
+                    <span *ngIf="authorName.errors?.required">Name is required</span>
+                </div>           
+            </div>
+        </div>
+    </form>
+
+</nz-modal>
+
+<ng-template #contentTemplate>
+    <nz-list nzBordered nzSize="small">
+        <nz-list-item *ngFor="let item of books">{{ item.name }}<br></nz-list-item>
+    </nz-list>
+</ng-template>
+
+
